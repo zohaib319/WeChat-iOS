@@ -2,6 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb365874665416944</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>365874665416944</string>
+	<key>FacebookClientToken</key>
+	<string>4f9a22ade5e25172ad4cd90533e5ba6b</string>
+	<key>FacebookDisplayName</key>
+	<string>PickleUp</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pickleup needs access to your photo library to pick images from your photo gallery which will be used to make new listings for you.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Pickleup needs accrss to your camera to capture the images which will be used to make new listings for you. </string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
