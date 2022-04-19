@@ -63,8 +63,8 @@ class SettingsViewController: UIViewController {
                     }
                     
                     break
-                case .failure(let error):
-                    print(error)
+                case .failure(let catchedError):
+                    print(catchedError)
                     break
                     
                     

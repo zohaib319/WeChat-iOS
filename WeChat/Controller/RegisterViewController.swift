@@ -121,6 +121,18 @@ class RegisterViewController: UIViewController, ImagePickerDelegate {
                 
                 self?.userDefaults?.set(self?.emailTF.text!, forKey: "user_email")
                 
+                guard let firstName = self?.firstNameTF.text else{
+                    print("no first name set")
+                    return
+                }
+                guard let lastname = self?.lastName.text else{
+                    print("no last name set")
+                    return
+                }
+                
+                
+                self?.userDefaults?.set("\(firstName) \(lastname)", forKey: "username")
+                
                 DatabaseManager.shared.inserUserIntoFirebaseDatabase(with: chatuser, completion: {done in
                     
                     // User is inserted successfully

@@ -435,11 +435,10 @@ extension String {
     }
 }
 
-
 // extension for setting empty table view
 extension UICollectionView {
     
-    func setEmptyView(title: String, message: String, image: String) {
+    func setEmptyCollectionView(title: String, message: String, image: String) {
         
         let emptyView = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
         
@@ -457,10 +456,10 @@ extension UICollectionView {
         //Setup title and label propoerties.
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = UIColor.label
-        titleLabel.font = UIFont(name: "Roboto-Medium", size: 18)
+        titleLabel.textColor = UIColor.lightGray
+        titleLabel.font = UIFont(name: "Roboto-Bold", size: 18)
         messageLabel.textColor = UIColor.lightGray
-        messageLabel.font = UIFont(name: "Roboto-Regular", size: 16)
+        messageLabel.font = UIFont(name: "Roboto-Medium", size: 17)
         emptyView.addSubview(titleLabel)
         emptyView.addSubview(messageLabel)
         

@@ -23,6 +23,7 @@
 		FA152C0A27E5D9D300D508DF /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA152C0927E5D9D300D508DF /* RegisterViewController.swift */; };
 		FA152C0C27E5FA7000D508DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA152C0B27E5FA7000D508DF /* GoogleService-Info.plist */; };
 		FA152C0E27EEEE0A00D508DF /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA152C0D27EEEE0A00D508DF /* DatabaseManager.swift */; };
+		FA547C7527F2E5C300CB4262 /* UsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA547C7427F2E5C300CB4262 /* UsersTableViewCell.swift */; };
 		FAE26E3527EF1E9700F85675 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE26E3427EF1E9700F85675 /* SettingsViewController.swift */; };
 		FAFAD75D27EF2DBF00A0F1CC /* FacebookButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFAD75C27EF2DBF00A0F1CC /* FacebookButton.swift */; };
 		FAFAD75F27F18ADD00A0F1CC /* ConversationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFAD75E27F18ADD00A0F1CC /* ConversationsModel.swift */; };
@@ -58,6 +59,7 @@
 		FA152C0927E5D9D300D508DF /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		FA152C0B27E5FA7000D508DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA152C0D27EEEE0A00D508DF /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		FA547C7427F2E5C300CB4262 /* UsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewCell.swift; sourceTree = "<group>"; };
 		FAE26E3427EF1E9700F85675 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FAFAD75C27EF2DBF00A0F1CC /* FacebookButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookButton.swift; sourceTree = "<group>"; };
 		FAFAD75E27F18ADD00A0F1CC /* ConversationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsModel.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				FAFAD76127F18BB900A0F1CC /* ConversationTableViewCell.swift */,
+				FA547C7427F2E5C300CB4262 /* UsersTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				FAFAD76C27F192CC00A0F1CC /* Sender.swift in Sources */,
 				FAFAD76A27F1929800A0F1CC /* Message.swift in Sources */,
 				FA152BE727E5B43100D508DF /* ConversationsViewController.swift in Sources */,
+				FA547C7527F2E5C300CB4262 /* UsersTableViewCell.swift in Sources */,
 				FAE26E3527EF1E9700F85675 /* SettingsViewController.swift in Sources */,
 				FA152C0E27EEEE0A00D508DF /* DatabaseManager.swift in Sources */,
 				FA152BE327E5B43100D508DF /* AppDelegate.swift in Sources */,

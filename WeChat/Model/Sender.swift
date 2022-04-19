@@ -9,7 +9,7 @@ import Foundation
 import MessageKit
 
 struct Sender: SenderType{
-    var senderId: String
-    var displayName: String
-    var photoURL: String
+    public var senderId: String
+    public var displayName: String
+    public var photoURL: String
 }

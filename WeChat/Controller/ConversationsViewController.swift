@@ -12,6 +12,10 @@ class ConversationsViewController: UIViewController {
     @IBOutlet weak var conversationsTableView: UITableView!
     
     var conversationsArray: [ConversationsModel] = []
+    var userDefaults = UserDefaults(suiteName: "userDefaults")
+    
+    
+    
     
     
     override func viewDidLoad() {
@@ -25,21 +29,83 @@ class ConversationsViewController: UIViewController {
             
             return
         }
-        fetchConversations()
+        startListiningForConversationsUpdate()
         
         
     }
     
-    func fetchConversations(){
-        conversationsArray.append(ConversationsModel(title: "Jenny"))
-        conversationsArray.append(ConversationsModel(title: "Meclaren"))
-        conversationsArray.append(ConversationsModel(title: "Shahzaib"))
+    func startListiningForConversationsUpdate(){
+        guard let email = userDefaults?.string(forKey: "user_email") else{
+            print("could not get user email")
+            return
+        }
+        let safeEmail = DatabaseManager.getSafeEmail(email: email)
+        DatabaseManager.shared.fetchAllConversations(for: safeEmail, completion: {[weak self]result in
+            guard let strongSelf = self else{
+                print("could not get strong self reference")
+                return
+            }
+            print(result)
+            switch(result){
+            case .success(let conversations):
+                if conversations.isEmpty {
+                    strongSelf.conversationsTableView.setEmptyView(title: "No Conversations Here.", message: "You can start a chat by clicking compose button.", image: "empty")
+                }else{
+                    strongSelf.conversationsArray = conversations
+                    DispatchQueue.main.async {
+                        strongSelf.conversationsTableView.reloadData()
+                    }
+                    
+                }
+            case .failure(let error):
+                print("Could not load conversations \(error)")
+            }
+                
+            
+            
+        })
         
-        conversationsTableView.reloadData()
     }
     
     @IBAction func composeButtonClicked(_ sender: Any) {
-        self.performSegue(withIdentifier: "newConversationSegue", sender: self)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Dashboard", bundle:nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "UsersViewController") as! UsersViewController
+        nextViewController.modalPresentationStyle = .automatic
+        nextViewController.completion = {[weak self] result in
+            guard let strongSelf = self else{
+                return
+            }
+            strongSelf.createNewConversation(result: result)
+            print(result)
+        }
+        self.present(nextViewController, animated:true, completion:nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is UsersViewController {
+            let vc = segue.destination as! UsersViewController
+            vc.completion = {[weak self] result in
+                guard let strongSelf = self else{
+                    return
+                }
+                strongSelf.createNewConversation(result: result)
+                print(result)
+            }
+        }
+    }
+    
+    func createNewConversation(result: [String: String]){
+        
+        guard let name = result["name"], let email = result["email"] else{
+            return
+        }
+        
+        let vc = ChatViewController(with: email, name: name, conversationId: nil, isNewConversation: true)
+        vc.title = name
+        vc.isNewConversation = true
+        vc.otherUserName = name
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
 
@@ -57,14 +123,20 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "conversationsCellId") as! ConversationTableViewCell
-        let dataItem = conversationsArray[indexPath.row]
-        cell.setConversation(conversationItem: dataItem)
+        let conversationItem = conversationsArray[indexPath.row]
+        cell.setConversation(conversationItem: conversationItem)
         cell.selectionStyle = .none
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "chatControllerSegue", sender: self)
+        let email = conversationsArray[indexPath.row].otherUserEmail
+        let name = conversationsArray[indexPath.row].name
+        let conversationId = conversationsArray[indexPath.row].id
+        let vc = ChatViewController(with: email, name: name, conversationId: conversationId, isNewConversation: false)
+        vc.title = name
+        vc.isNewConversation = false
+        vc.otherUserName = name
+        navigationController?.pushViewController(vc, animated: true)
     }
-    
 }
 

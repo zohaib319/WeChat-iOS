@@ -36,9 +36,13 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
                   }
             print("picture url is \(pictureURl)")
             self.userDefaults?.set(fbEmail, forKey: "user_email")
+            self.userDefaults?.set("\(firstName) \(lastName)", forKey: "username")
             
             let chatUser = User(firstName: firstName, lastName: lastName, email: fbEmail)
             DatabaseManager.shared.userExists(email: fbEmail, completion: {exists in
+                
+                print(exists)
+                
                 if !exists {
                     DatabaseManager.shared.inserUserIntoFirebaseDatabase(with: chatUser, completion: {done in
                         
@@ -156,7 +160,13 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
         }
         
         // firebase login here.
-        FirebaseAuth.Auth.auth().signIn(withEmail: emailTF.text!, password: passwordTF.text!, completion: {authResult, error in
+        FirebaseAuth.Auth.auth().signIn(withEmail: emailTF.text!, password: passwordTF.text!, completion: {[weak self]authResult, error in
+            
+            guard let strongSelf = self else{
+                print("could not get a reference to strong self")
+                return
+            }
+            
             guard let result = authResult, error == nil else{
                 print("Error logging in user")
                 return
@@ -165,12 +175,41 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
             let user = result.user
             print("Logged In User \(user)")
             
-            self.userDefaults?.set(self.emailTF.text, forKey: "user_email")
+            strongSelf.userDefaults?.set(strongSelf.emailTF.text, forKey: "user_email")
+            // get username from firebase node.
+            
+            guard let enteredEmail = strongSelf.emailTF.text else{
+                print("user didn't entered email.")
+                return
+            }
+            let safeEmail = DatabaseManager.getSafeEmail(email: enteredEmail)
+            
+            // query firebase database and get firstname and last name.
+            DatabaseManager.shared.getDataFromNode(path: safeEmail, completion: {[weak self]result in
+                switch(result){
+                case .success(let data):
+                    guard let userData = data as? [String: Any] else{
+                        print("unable to parse user data")
+                        return
+                    }
+                    guard let firstName = userData["firstName"] as? String,
+                          let lastName = userData["lastName"] as? String else{
+                              print("could not parse user data")
+                              return
+                          }
+                    self?.userDefaults?.set("\(firstName) \(lastName)", forKey: "username")
+                    
+                case .failure(let error):
+                    print("could not fetch data from node \(error)")
+                }
+            })
+            
+            
             AccountController.shared.save(accessToken: user.uid)
             let storyBoard : UIStoryboard = UIStoryboard(name: "Dashboard", bundle:nil)
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "UserDashboardViewController") as! UserDashboardViewController
             nextViewController.modalPresentationStyle = .fullScreen
-            self.present(nextViewController, animated:true, completion:nil)
+            self?.present(nextViewController, animated:true, completion:nil)
         })
     }
     

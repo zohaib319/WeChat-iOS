@@ -7,9 +7,15 @@
 
 import Foundation
 struct ConversationsModel{
-    var title: String
-    
-    init(title: String){
-        self.title = title
-    }
+    var id: String
+    var name: String
+    var otherUserEmail: String
+    var latestMessage: LatestMessage   
+}
+
+
+struct LatestMessage{
+    var message: String
+    var date: String
+    var isRead: Bool
 }
